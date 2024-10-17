@@ -2,6 +2,18 @@ var app = (function () {
 
   let authorName = "";
   let author;
+  let points = [];
+
+
+    //añadir nuevo punto al array de tuplas
+    function setPoints(tuple){
+        points.push(tuple); //push: inserción al final del array
+    }
+
+    //Obtención de todos los puntos almacenadios
+    function getPoints(){
+        return points;
+    }
 
     //Nombre del autor y Validación de existencia
     function getNameAuthorBlueprints() {
@@ -9,7 +21,7 @@ var app = (function () {
        if (author === "") {
            alert("Incorrect name !");
        } else {
-           apimock.getBlueprintsByAuthor(author, (req, resp) => {
+           apiclient.getBlueprintsByAuthor(author, (req, resp) => {
                createTableData(resp);
            });
        }
@@ -20,7 +32,7 @@ var app = (function () {
        if (author === "") {
            alert("Incorrect name !");
        } else {
-        apimock.getBlueprintsByNameAndAuthor(author,name, (req, resp) => {
+        apiclient.getBlueprintsByNameAndAuthor(author,name, (req, resp) => {
                 draw(resp);
          });
        }
@@ -71,9 +83,66 @@ var app = (function () {
         }
     }
 
+    // Agregar un nuevo blueprint (plano) para un autor.
+    function addBlueprint(){
+        author = $("#author").val(); //obtención autor
+        let bpname = prompt('Insert the name of the new bpname');
+        let data = "";
+        apiclient.getBlueprintsByNameAndAuthor(author,bpname, (req, resp) => {
+            data = resp;
+            console.log(typeof resp);
+        });
+                apiclient.addBlueprint(parseString(points),author,bpname, (req, resp) => {
+                    window.setTimeout(function(){
+                        getBlueprintsByNameAndAuthor(author,resp);
+                    }, 600);
+                });
+        points=[];
+        getNameAuthorBlueprints();
+    }
+
+    // Convertir un array de puntos en una cadena de texto (string) con el formato adecuado.
+    //"{'x':140,'y':140},{'x':115,'y':115}"
+    function parseString(array){
+        let string = "";
+        for (let i = 0; i<array.length; i++){
+            string += "{'x':"+array[i][0] +",'y':"+array[i][1]+"}" ;
+            if (i!=array.length-1) string+=",";
+        }
+        return string;
+    }
+
+    //Actualizar un blueprint existente con nuevos puntos.
+    function updateBlueprint() {
+        let bp = [{"x":140,"y":140},{"x":115,"y":115}];
+        author = $("#author").val();
+        let bpname = "firstBlueprint";
+        apiclient.updateBlueprint(author,bpname, (req, resp) => {
+           getBlueprintsByNameAndAuthor(author,resp);
+        });
+    }
+
+    //Eliminar
+    function deleteBlueprint() {
+        author = $("#author").val();
+        let bpname = prompt('Insert the name of the blueprint you want to delete');
+        const canvas = document.getElementById('myCanvas');
+        const context = canvas.getContext('2d');
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        apiclient.deleteBlueprint(author,bpname, (req, resp) => {
+        });
+        getNameAuthorBlueprints();
+    }
+
   return {
     getNameAuthorBlueprints: getNameAuthorBlueprints,
-    getBlueprintsByNameAndAuthor: getBlueprintsByNameAndAuthor
+    getBlueprintsByNameAndAuthor: getBlueprintsByNameAndAuthor,
+    updateBlueprint: updateBlueprint,
+    deleteBlueprint: deleteBlueprint,
+    setPoints : setPoints,
+    getPoints : getPoints,
+    addBlueprint : addBlueprint,
+    deleteBlueprint : deleteBlueprint
   };
 
 })();

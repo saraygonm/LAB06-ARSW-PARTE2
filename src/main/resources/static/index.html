@@ -42,7 +42,7 @@
             <h1 style="color: purple;">Blueprints</h1>
             <div>
                 <p class="author-name" id="title">Author:
-                    <input id="author" placeholder="johnconnor" type="text">
+                    <input id="author" placeholder="Saray" type="text">
                     <button class="btn btn-primary" onclick="app.getNameAuthorBlueprints()" style="background-color:purple">Get blueprints</button>
                 </p>
             </div>
@@ -73,6 +73,12 @@
             <h2 id="titleCanva" style="color: purple;">Current Blueprint:</h2>
             <canvas id="myCanvas" width="400" height="300" style="border: 5px solid purple; background-color: thistle"></canvas>
             </canvas>
+        </div>
+        <script src="js/PointerEvent.js"></script>
+
+        <div class="container_button">
+            <button class="btn btn-success" onclick="app.addBlueprint()" style="background-color: #5CA65C;">Save/Update</button>
+            <button class="btn btn-warning" onclick="app.deleteBlueprint()" style="background-color: #D98E96">Delete</button>
         </div>
 
 </body>

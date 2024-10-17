@@ -40,7 +40,65 @@ apiclient=(function(){
                 }
             );
 
-		}
+		},
+
+        // Actualizar un plano (blueprint) con nuevos puntos.
+		updateBlueprint:function(points,author,bpname,callback){
+		    //Envio de la petición PUT
+            const put_request = $.ajax({
+                url: "/blueprints/"+author+"/"+bpname+"/"+points,
+                type: "PUT",
+                data: '{"points":'+JSON.stringify(points)+',"bpname":'+bpname+',"author":'+author+'}',
+                contentType: "application/json",
+            });callback(null,bpname,bpname)
+        },
+
+        //Agregar un nuevo plano, realizando una petición con POST
+        addBlueprint:function(points,author,bpname,callback){
+            const put_request = $.ajax({
+                url: "/blueprints/"+author+"/"+bpname+"/"+points,
+                type: "POST", //Creación del recurso
+                data: '{"points":'+JSON.stringify(points)+',"bpname":'+bpname+',"author":'+author+'}',
+                contentType: "application/json",
+            }); callback(null,bpname,bpname);
+        },
+
+        //Elimina un plano existente
+        deleteBlueprint:function(author,bpname,callback){
+           $.ajax({
+               url: "/blueprints/"+author+"/"+bpname,
+               type: "DELETE", //Petición al servidor
+               contentType: "application/json",
+           });
+        },
+
+        //Buscar planos por autor y nombre
+        searchBlueprintsByNameAndAuthor:function(authname,bpname,callback){
+            const get_request1 = $.get({
+                url: "/blueprints/"+authname+"/", //Obtención de los blueprints del autor
+                contentType: "application/json",
+            });
+            const get_request2 = $.get({
+                url: "/blueprints/"+authname+"/"+bpname, //Blueprint específico por nombre
+                contentType: "application/json",
+            });
+            //Resultados(almacenamiento)
+            let data1;
+            let data2;
+            get_request1.then(function(data) {
+                console.log(data1);
+                data1 = data;
+                }, function(error){
+                }
+            );
+            get_request2.then(function(data) {
+                console.log(data2);
+                data2 = data;
+                }, function(error){
+                }
+            );
+        },
+
 	}
 
 })();
