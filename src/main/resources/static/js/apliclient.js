@@ -13,7 +13,6 @@ apiclient=(function(){
 
 	return {
 		getBlueprintsByAuthor:function(authname,callback){
-
            const get_request = $.get({
                 url: "/blueprints/" + authname,
                 contentType: "application/json",

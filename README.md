@@ -20,28 +20,40 @@
 
 3. Agregue el botón Save/Update. Respetando la arquitectura de módulos actual del cliente, haga que al oprimirse el botón:
 	1. Se haga PUT al API, con el plano actualizado, en su recurso REST correspondiente.
-	2. Se haga GET al recurso /blueprints, para obtener de nuevo todos los planos realizados.
-	3. Se calculen nuevamente los puntos totales del usuario.
+<p align="center">
+<img src="img/6.2/2.png" alt="PUT" width="700px">
+</p>
 
-	Para lo anterior tenga en cuenta:
+- Es importante observar que la propiedad 'data' del objeto que se pasa a `$.ajax` debe estar en formato de texto JSON. Si necesitas enviar un objeto JavaScript, primero debes convertirlo a texto JSON utilizando:
 
-	* jQuery no tiene funciones para peticiones PUT o DELETE, por lo que es necesario 'configurarlas' manualmente a través de su API para AJAX. Por ejemplo, para hacer una peticion PUT a un recurso /myrecurso:
+```javascript
+JSON.stringify(objetoJavaScript)
+```
 
-	```javascript
-    return $.ajax({
-        url: "/mirecurso",
-        type: 'PUT',
-        data: '{"prop1":1000,"prop2":"papas"}',
-        contentType: "application/json"
-    });
+2. Se haga GET al recurso /blueprints, para obtener de nuevo todos los planos realizados.
+
+
+3. Se calculen nuevamente los puntos totales del usuario.
+
+   Para lo anterior tenga en cuenta:
+
+   * jQuery no tiene funciones para peticiones PUT o DELETE, por lo que es necesario 'configurarlas' manualmente a través de su API para AJAX. Por ejemplo, para hacer una peticion PUT a un recurso /myrecurso:
+
+   ```javascript
+   return $.ajax({
+       url: "/mirecurso",
+       type: 'PUT',
+       data: '{"prop1":1000,"prop2":"papas"}',
+       contentType: "application/json"
+   });
     
-	```
-	Para éste note que la propiedad 'data' del objeto enviado a $.ajax debe ser un objeto jSON (en formato de texto). Si el dato que quiere enviar es un objeto JavaScript, puede convertirlo a jSON con: 
+   ```
+   Para éste note que la propiedad 'data' del objeto enviado a $.ajax debe ser un objeto jSON (en formato de texto). Si el dato que quiere enviar es un objeto JavaScript, puede convertirlo a jSON con: 
 	
-	```javascript
-	JSON.stringify(objetojavascript),
-	```
-	* Como en este caso se tienen tres operaciones basadas en _callbacks_, y que las mismas requieren realizarse en un orden específico, tenga en cuenta cómo usar las promesas de JavaScript [mediante alguno de los ejemplos disponibles](http://codepen.io/hcadavid/pen/jrwdgK).
+   ```javascript
+   JSON.stringify(objetojavascript),
+   ```
+   * Como en este caso se tienen tres operaciones basadas en _callbacks_, y que las mismas requieren realizarse en un orden específico, tenga en cuenta cómo usar las promesas de JavaScript [mediante alguno de los ejemplos disponibles](http://codepen.io/hcadavid/pen/jrwdgK).
 
 4. Agregue el botón 'Create new blueprint', de manera que cuando se oprima: 
 	* Se borre el canvas actual.
