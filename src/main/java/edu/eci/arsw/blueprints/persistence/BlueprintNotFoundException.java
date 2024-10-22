@@ -6,20 +6,20 @@
 package edu.eci.arsw.blueprints.persistence;
 
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
 /**
  *
  * @author hcadavid
  */
+
+@ResponseStatus(HttpStatus.NOT_FOUND)
 public class BlueprintNotFoundException extends Exception{
 
-    public static final String NO_AUTOR = "No se encontró un plano con ese autor";
 
-    public BlueprintNotFoundException(String message) {
+    public BlueprintNotFoundException(String message){
         super(message);
-    }
-
-    public BlueprintNotFoundException(String message, Throwable cause) {
-        super(message, cause);
     }
 
 }

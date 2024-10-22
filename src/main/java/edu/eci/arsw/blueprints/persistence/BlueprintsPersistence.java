@@ -6,6 +6,7 @@
 package edu.eci.arsw.blueprints.persistence;
 
 import edu.eci.arsw.blueprints.model.Blueprint;
+import edu.eci.arsw.blueprints.model.Point;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -27,15 +28,17 @@ public interface BlueprintsPersistence {
 
     /**
      *
-     * @param author blueprint's author
-     * @param bprintname blueprint's author
      * @return the blueprint of the given name and author
      * @throws BlueprintNotFoundException if there is no such blueprint
      */
-    public Blueprint getBlueprint(String author,String bprintname) throws BlueprintNotFoundException;
+    public Blueprint getBlueprint(String author,String bprintname);
 
-    public Set<Blueprint> getBlueprintsByAuthor(String author) throws BlueprintNotFoundException;
+    Set<Blueprint> getAllBlueprints() ;
 
-    public Set<Blueprint> getAllBlueprint()throws  BlueprintNotFoundException;
+    Set<Blueprint> getBlueprintsByAuthor(String author);
+
+    void updateBlueprint(String bpautor, String bpname, Point[] points);
+
+    void deleteBlueprint(String bpname, String bpauthor);
 
 }

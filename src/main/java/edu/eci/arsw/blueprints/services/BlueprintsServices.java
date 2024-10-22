@@ -31,12 +31,17 @@ public class BlueprintsServices {
     @Autowired
     BlueprintsFilters bpf;
 
-    public void addNewBlueprint(Blueprint bp) throws BlueprintPersistenceException, BlueprintNotFoundException {
-        bpp.saveBlueprint(filterBluePrint(bp));
+    public void addNewBlueprint(Blueprint bp) throws BlueprintPersistenceException {
+        bpp.saveBlueprint(bp);
     }
 
-    public Set<Blueprint> getAllBlueprints() throws BlueprintNotFoundException {
-        return bpf.filters(bpp.getAllBlueprint());
+    public void updateBlueprint(String bpautor, String bpname,Point[] points){
+        System.out.println(bpautor+" "+bpname);
+        bpp.updateBlueprint( bpautor, bpname,points);
+    }
+
+    public Set<Blueprint> getAllBlueprints() throws BlueprintPersistenceException {
+        return bpf.filters(bpp.getAllBlueprints());
     }
 
     /**
@@ -47,26 +52,21 @@ public class BlueprintsServices {
      * @throws BlueprintNotFoundException if there is no such blueprint
      */
     public Blueprint getBlueprint(String author,String name) throws BlueprintNotFoundException{
-
-        return filterBluePrint(bpp.getBlueprint(author,name));
+        return bpp.getBlueprint(author,name);
     }
 
-    public Blueprint filterBluePrint(Blueprint bp) throws BlueprintNotFoundException {
-
-        return bpf.filter(bp);
-    }
 
     /**
      *
      * @param author blueprint's author
      * @return all the blueprints of the given author
-     * @throws BlueprintNotFoundException if the given author doesn't exist
      */
-    public Set<Blueprint> getBlueprintsByAuthor(String author) throws BlueprintNotFoundException{
-        return bpf.filters(bpp.getBlueprintsByAuthor(author));
+    public Set<Blueprint> getBlueprintByAuthor(String author) throws BlueprintNotFoundException {
+        return bpp.getBlueprintsByAuthor(author);
     }
 
-    public Set<Blueprint> filter(Set<Blueprint> blueprints) throws BlueprintNotFoundException{
-        return bpf.filters(blueprints);
+    public void deleteBlueprint(String bpname, String bpauthor) throws BlueprintNotFoundException{
+        bpp.deleteBlueprint(bpname,bpauthor);
     }
+
 }
